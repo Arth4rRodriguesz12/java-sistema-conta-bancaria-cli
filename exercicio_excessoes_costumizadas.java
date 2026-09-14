@@ -6,6 +6,12 @@
 
     }
 
+    class DepositoMenorQueZeroException extends RuntimeException{
+        public DepositoMenorQueZeroException(String aviso){
+            super(aviso);
+        }
+    }
+
 
 class ContaBancaria{
     private double saldo;
@@ -44,7 +50,39 @@ class ContaBancaria{
 
    public void sacar(double valor){
     if (valor > saldo){
-    throw new SaldoInsuficienteException("Você não tem saldo suficiente!" );
+    throw new SaldoInsuficienteException("Você não tem saldo suficiente!" );//chama a excessão que criei
+    } else{
+        this.saldo -= valor;
+        System.out.println("O novo saldo é: " + this.saldo);
     }
    }
+
+   public void depositar(double deposito){
+    if(deposito < 0){
+    throw new DepositoMenorQueZeroException("Erro, deposito não pode ser menor que zero");
+    }else{
+        this.saldo += deposito;
+        System.out.println("O novo saldo é: " + this.saldo);
+    }
+   }
+
+   public void consultar(){
+        System.out.println("O seu saldo atual é: " + saldo);
+    }
+
+   public ContaBancaria(){
+
+   }
 }
+
+     public class exercicio_excessoes_costumizadas{
+     public static void main(String[] args){
+
+        ContaBancaria contaB = new ContaBancaria();
+
+        contaB.depositar(1000.0);
+        contaB.sacar(150.0);
+        contaB.sacar(1200);
+
+        }
+    }
